@@ -213,6 +213,6 @@ class ApiClient
                 throw new \UnexpectedValueException('signatureMethod invalid');
                 break;
         }
-        return $hash;
+        return base64_encode($hash);
     }
 }
