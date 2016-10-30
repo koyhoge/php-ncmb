@@ -1,0 +1,15 @@
+{
+    "name": "koyhoge/php-ncmb",
+    "description": "PHP SDK for NIFTY CLOUD mobile backend (NCMB)",
+    "require": {
+        "guzzlehttp/guzzle": "6.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Ncmb": "src/"
+        }
+    }
+}
