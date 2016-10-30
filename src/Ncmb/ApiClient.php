@@ -207,7 +207,7 @@ class ApiClient
 
         switch ($hashMethod) {
             case 'HmacSHA256':
-                $hash = hash_hmac('sha256', $string, $key, true);
+                $hash = hash_hmac('sha256', $data, $key, true);
                 break;
             default:
                 throw new \UnexpectedValueException('signatureMethod invalid');
