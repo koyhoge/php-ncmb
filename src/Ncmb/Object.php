@@ -93,6 +93,15 @@ class Object
     }
 
     /**
+     * Get the objectId for the object, or null if unsaved.
+     * @return string|null
+     */
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    /**
      * Save object
      */
     public function save()
