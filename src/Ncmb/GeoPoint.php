@@ -21,7 +21,7 @@ class GeoPoint implements Encodable
     public function __construct($lat, $lng)
     {
         $this->setLatitude($lat);
-        $this->setLongitude($lon);
+        $this->setLongitude($lng);
     }
 
     /**
