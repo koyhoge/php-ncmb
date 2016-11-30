@@ -21,8 +21,25 @@ class User extends Object
      */
     protected $sessionToken = null;
 
+    /**
+     * Retrieves the currently logged in User with a valid session,
+     * either from memory or the storage provider, if necessary.
+     *
+     * @return \Ncmb\User|null
+     */
     public static function getCurrentUser()
     {
+        if (static::$currentUser instanceof self) {
+            return static::$currentUser;
+        }
+        $storage = ApiClient::getStorage();
+        $userData = $storage->get('user');
+        if ($userData instanceof self) {
+            static::$currentUser = $userData;
+
+            return $userData;
+        }
+        return null;
     }
 
     /**
@@ -135,12 +152,40 @@ class User extends Object
         $data = ['userName' => $username, 'password' => $password];
         $result = ApiClient::request('GET', 'login', null, $data);
 
-
         $user = new static();
-        $user->_mergeAfterFetch($result);
+        $user->mergeAfterFetch($result);
         $user->handleSaveResult(true);
-        ParseClient::getStorage()->set('user', $user);
 
         return $user;
+    }
+
+    /**
+     * After a save, perform User object specific logic.
+     *
+     * @param bool $makeCurrent Whether to set the current user.
+     */
+    protected function handleSaveResult($makeCurrent = false)
+    {
+        if (isset($this->serverData['password'])) {
+            unset($this->serverData['password']);
+        }
+        if (isset($this->serverData['sessionToken'])) {
+            $this->sessionToken = $this->serverData['sessionToken'];
+            unset($this->serverData['sessionToken']);
+        }
+        if ($makeCurrent) {
+            static::$currentUser = $this;
+            static::saveCurrentUser();
+        }
+        $this->rebuildEstimatedData();
+    }
+
+    /**
+     * Persists the current user to the storage provider.
+     */
+    protected static function saveCurrentUser()
+    {
+        $storage = ApiClient::getStorage();
+        $storage->set('user', static::getCurrentUser());
     }
 }
