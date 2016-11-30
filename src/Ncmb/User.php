@@ -21,6 +21,10 @@ class User extends Object
      */
     protected $sessionToken = null;
 
+    public static function getCurrentUser()
+    {
+    }
+
     /**
      * Constructor
      */
@@ -89,5 +93,54 @@ class User extends Object
     public function isAuthenticated()
     {
         return $this->sessionToken !== null;
+    }
+
+    /**
+     * Signs up the current user, or throw if invalid.
+     */
+    public function signUp()
+    {
+        if (!$this->get('username')) {
+            throw new Exception('Cannot sign up user with an empty name');
+        }
+        if (!$this->get('password')) {
+            throw new Exception('Cannot sign up user with an empty password.');
+        }
+        if ($this->getObjectId()) {
+            throw new Exception('Cannot sign up an already existing user.');
+        }
+
+        parent::save();
+    }
+
+    /**
+     * Logs in and returns a valid User, or throws if invalid.
+     *
+     * @param string $username
+     * @param string $password
+     *
+     * @throws Ncmb\Exception
+     *
+     * @return Ncmb\User
+     */
+    public static function login($username, $password)
+    {
+        if (!$username) {
+            throw new Exception('Cannot log in user with an empty name');
+        }
+        if (!$password) {
+            throw new Exception('Cannot log in user with an empty password.');
+        }
+
+        $data = ['userName' => $username, 'password' => $password];
+        $result = ApiClient::request('GET', 'login', null, $data);
+
+
+        $user = new static();
+        $user->_mergeAfterFetch($result);
+        $user->handleSaveResult(true);
+        ParseClient::getStorage()->set('user', $user);
+
+        return $user;
     }
 }

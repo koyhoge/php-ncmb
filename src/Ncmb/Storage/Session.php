@@ -5,12 +5,19 @@ namespace Ncmb\Storage;
 /**
  * Persistant storage implements with PHP session
  */
-class Session implements Ncmb\StorageInterface
+class Session implements \Ncmb\StorageInterface
 {
     private $storageKey = 'NcmbData';
 
-    public function __construct()
+    /**
+     * Constructor
+     * @param string $key indetify key of storage
+     */
+    public function __construct($key = null)
     {
+        if (!empty($key)) {
+            $ths->storageKey = $this->storageKey . '_' . $key;
+        }
         if (session_status() !== PHP_SESSION_ACTIVE) {
             throw new Ncmb\Exception(
                 'PHP session_start() must be called first.');

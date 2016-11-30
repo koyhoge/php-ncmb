@@ -11,7 +11,14 @@ class NCMB
      * Constant for version string
      * @var string
      */
-    const VERSION_STRING = 'ncmb-php-sdk-0.1.0';
+    const SDK_VERSION = 'ncmb-php-sdk-0.1.0';
+
+    /**
+     * API type
+     * @var string
+     */
+    const T_API_COMMON = 'common';
+    const T_API_SCRIPT = 'script';
 
     /**
      * @var default settings
@@ -99,7 +106,7 @@ class NCMB
         $port = self::config('port');
         $apiVersion = self::config('apiVersion');
 
-        $hostkey = ($type === 'script')? 'scriptApiHost': 'apiHost';
+        $hostkey = ($type === self::T_API_SCRIPT)? 'scriptApiHost': 'apiHost';
         $apiHost = self::config($hostkey);
 
         if (($protocol == 'http' && $port == 80) ||

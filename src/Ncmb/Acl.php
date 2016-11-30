@@ -21,11 +21,37 @@ class Acl implements Encodable
      * @param User $user
      * @return Acl
      */
-    public static function createAclWithUser($user)
+    public static function createWithUser($user)
     {
         $acl = new self();
         $acl->setUserReadAccess($user, true);
         $acl->setUserWriteAccess($user, true);
+        return $acl;
+    }
+    /**
+     * Create new Acl object from existing permissions.
+     *
+     * @param array $data represents permissions.
+     * @throws \Ncmb\Exception
+     * @return \Ncmb\Acl
+     */
+    public static function createFromData($data)
+    {
+        $acl = new self();
+        foreach ($data as $id => $permissions) {
+            if (!is_string($id)) {
+                throw new Exception('Invalid user id to create an ACL');
+            }
+            foreach ($permissions as $accessType => $value) {
+                if ($accessType !== 'read' && $accessType !== 'write') {
+                    throw new Exception('Invalid permission type with ACL');
+                }
+                if (!is_bool($value)) {
+                    throw new Exception('Invalid permission value with ACL');
+                }
+                $acl->setAccess($accessType, $id, $value);
+            }
+        }
         return $acl;
     }
 
