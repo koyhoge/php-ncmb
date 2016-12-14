@@ -45,12 +45,44 @@ class ApiClient
     }
 
     /**
+     * Send with HTTP GET method
+     * @param string $path API path
+     * @param array $options options
+     */
+    public static function get($path, $options = [])
+    {
+        return self::request('GET', $path, $options);
+    }
+
+    /**
+     * Send with HTTP POST method
+     * @param string $path API path
+     * @param array $options options
+     */
+    public static function post($path, array $options = [])
+    {
+        return self::request('POST', $path, $options);
+    }
+
+    /**
+     * Send with HTTP PUT method
+     * @param string $path path of url
+     * @param array $options options
+     */
+    public static function put($path, array $options = [])
+    {
+        return self::request('PUT', $path, $options);
+    }
+
+    /**
      * Convinience shortcut to send request to the server
      *
      * @param string $method HTTP Method
      * @param string $relativeUrl REST API Path
-     * @param string $sessionToken Session token
      * @param array $data Data to provide with the request.
+     * @param string $sessionToken Session token
+     * @param string $apiType type of APIi
+     * @param ApiClient $apiClient ApiClient object
      * @return mixed Result from API call
      */
     public static function request(
@@ -73,11 +105,20 @@ class ApiClient
             $data = [];
         }
 
+        // if $sessionToken is not set, use of current user
+        if ($sessionToken === null) {
+            $curUser = User::getCurrentUser();
+            if ($curUser) {
+                $sessionToken = $curUser->getSessionToken();
+            }
+        }
+
         // Send request to API
         $response = $apiClient->send($method, $relativeUrl, $data,
                                      $sessionToken);
-        if ($response->getStatusCode() != 200) {
-            throw Exception('API returns bad status code');
+        $statusCode = $response->getStatusCode();
+        if ($statusCode != 200 && $statusCode != 201) {
+            throw new Exception('API returns bad status code');
         }
 
         // Check Content-Type of response
@@ -127,36 +168,6 @@ class ApiClient
     public static function getStorage()
     {
         return self::$storage;
-    }
-
-    /**
-     * Send with HTTP GET method
-     * @param string $path API path
-     * @param array $options options
-     */
-    public function get($path, $options = [])
-    {
-        return $this->send('GET', $path, $options);
-    }
-
-    /**
-     * Send with HTTP POST method
-     * @param string $path API path
-     * @param array $options options
-     */
-    public function post($path, array $options = [])
-    {
-        return $this->send('POST', $path, $options);
-    }
-
-    /**
-     * Send with HTTP PUT method
-     * @param string $path path of url
-     * @param array $options options
-     */
-    public function put($path, array $options = [])
-    {
-        return $this->send('PUT', $path, $options);
     }
 
     /**

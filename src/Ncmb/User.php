@@ -47,7 +47,7 @@ class User extends Object
      */
     public function __construct()
     {
-        parent::__consturuct(self::$ncmbClassName);
+        parent::__construct(self::$ncmbClassName);
     }
 
     /**
@@ -113,11 +113,19 @@ class User extends Object
     }
 
     /**
+     * Get session token
+     */
+    public function getSessionToken()
+    {
+        return $this->sessionToken;
+    }
+
+    /**
      * Signs up the current user, or throw if invalid.
      */
     public function signUp()
     {
-        if (!$this->get('username')) {
+        if (!$this->get('userName')) {
             throw new Exception('Cannot sign up user with an empty name');
         }
         if (!$this->get('password')) {
@@ -128,6 +136,8 @@ class User extends Object
         }
 
         parent::save();
+        $this->handleSaveResult(true);
+        return $this;
     }
 
     /**
@@ -157,6 +167,72 @@ class User extends Object
         $user->handleSaveResult(true);
 
         return $user;
+    }
+
+    /**
+     * Login with Facebook
+     * @param string $id Facebook user id
+     * @param string $accessToken the access token for this session
+     * @param \DateTime $expirationDate expiration date
+     */
+    public static function loginWithFacebook($id, $accessToken,
+                                             $expirationDate = null)
+    {
+        if (!$id) {
+            throw new Exception('Cannot log in Facebook user without an id.');
+        }
+        if (!$expirationDate) {
+            $expirationDate = new \DateTime();
+            // default 60 days
+            $expirationDate->setTimestamp(time() * 86400 * 60);
+        }
+        $data = [
+            'facebook' => [
+                'id' => $id,
+                'access_token' => $accessToken,
+                'expiration_date' => Encoder::getProperDateFormat($expirationDate),
+            ],
+        ];
+
+        $this->set('authData', $data);
+        $this->handleSaveResult(true);
+        return $this;
+    }
+
+    /**
+     * Login with Twitter
+     * @param string $id Twitter user id
+     * @param string $screenName the screen name of twitter user
+     * @param string $oauthConsumerKey consumer key
+     * @param string $consumerSecret
+     * @param string $oauthToken
+     * @param string $oauthTokenSecret
+     */
+    public static function loginWithTwitter(
+        $id,
+        $screenName,
+        $oauthConsumerKey,
+        $consumerSecret,
+        $oauthToken,
+        $oauthTokenSecret
+    ) {
+        if (!$id) {
+            throw new Exception('Cannot log in Twitter user without an id.');
+        }
+        $data = [
+            'twitter' => [
+                'id' => $id,
+                'screen_name' => $screenName,
+                'oauth_consumer_key' => $oauthConsumerKey,
+                'consumer_secret' => $consumerSecret,
+                'oauth_token' => $oauthToken,
+                'oauth_token_secret' => $oauthTokenSecret,
+            ],
+        ];
+
+        $this->set('authData', $data);
+        $this->handleSaveResult(true);
+        return $this;
     }
 
     /**

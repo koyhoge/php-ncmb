@@ -302,7 +302,8 @@ class Object implements Encodable
     }
 
     /**
-     * Save object
+     * Save the object
+     * @return \Ncmb\Object Returns self
      */
     public function save()
     {
@@ -312,8 +313,9 @@ class Object implements Encodable
             'json' => $this->getSaveData(),
         ];
 
-        $client = ApiClient::create();
-        return $client->post($path, $options);
+        $data = ApiClient::post($path, $options);
+        $this->mergeAfterFetch($data, false);
+        return $this;
     }
 
     /**
@@ -322,15 +324,8 @@ class Object implements Encodable
      */
     public function fetch()
     {
-        $sessionToken = null;
-        if (User::getCurrentUser()) {
-            $sessionToken = User::getCurrentUser()->getSessionToken();
-        }
-        $response = ApiClient::request(
-            'GET',
-            $this->getApiPath() . '/' . $this->objectId,
-            null,
-            $sessionToken
+        $response = ApiClient::get(
+            $this->getApiPath() . '/' . $this->objectId
         );
         $this->mergeAfterFetch($response);
 
