@@ -268,6 +268,27 @@ class Object implements Encodable
     }
 
     /**
+     * Set ACL for this object.
+     *
+     * @param \Ncmb\Acl $acl
+     */
+    public function setAcl($acl)
+    {
+        // TODO: rewrite to use Operation
+        $this->set('acl', $acl);
+    }
+
+    /**
+     * Get ACL assigned to the object.
+     *
+     * @return \Ncmb\Acl
+     */
+    public function getAcl()
+    {
+        return $this->get('acl');
+    }
+
+    /**
      * Handle merging of special fields for the object.
      *
      * @param array &$data Data received from server.
