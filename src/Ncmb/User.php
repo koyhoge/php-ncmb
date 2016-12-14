@@ -44,10 +44,11 @@ class User extends Object
 
     /**
      * Constructor
+     * @param string|null $objectId objectId of this object
      */
-    public function __construct()
+    public function __construct($objectId = null)
     {
-        parent::__construct(self::$ncmbClassName);
+        parent::__construct(self::$ncmbClassName, $objectId);
     }
 
     /**
