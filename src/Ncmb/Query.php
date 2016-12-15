@@ -439,4 +439,31 @@ class Query
 
         return $opts;
     }
+
+    /**
+     * Build query options from query constraints.
+     *
+     * @param array $queryOptions Associative array of the query constraints.
+     *
+     * @return array query options as assoc array
+     */
+    public static function buildQueryOptions($queryOptions)
+    {
+        if (isset($queryOptions['where'])) {
+            // JSONise where conditions
+            $whereConds = Encoder::encode($queryOptions['where']);
+            $queryOptions['where'] = json_encode($whereConds);
+        }
+        return $queryOptions;
+    }
+
+    /**
+     * Build query options of this Query object.
+     *
+     * @reutrn array query options as assoc array
+     */
+    public function getQueryOptions()
+    {
+        return self::buildQueryOptions($this->getOptions());
+    }
 }
