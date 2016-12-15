@@ -160,8 +160,13 @@ class User extends Object
             throw new Exception('Cannot log in user with an empty password.');
         }
 
-        $data = ['userName' => $username, 'password' => $password];
-        $result = ApiClient::request('GET', 'login', null, $data);
+        $data = [
+            'query' => [
+                'userName' => $username,
+                'password' => $password,
+            ],
+        ];
+        $result = ApiClient::get('login', $data);
 
         $user = new static();
         $user->mergeAfterFetch($result);
