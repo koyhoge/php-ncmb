@@ -67,6 +67,32 @@ class Query
     }
 
     /**
+     * Set the skip parameter as a query constraint.
+     *
+     * @param int $n Number of objects to skip from start of results.
+     *
+     * @return \Ncmb\Query Returns this query, so you can chain this call.
+     */
+    public function skip($n)
+    {
+        $this->skip = $n;
+        return $this;
+    }
+
+    /**
+     * Set the limit parameter as a query constraint.
+     *
+     * @param int $n Number of objects to return from the query.
+     *
+     * @return \Ncmb\Query Returns this query, so you can chain this call.
+     */
+    public function limit($n)
+    {
+        $this->limit = $n;
+        return $this;
+    }
+
+    /**
      * Set a constraint for a field matching a given value.
      *
      * @param string $key   Key to set up an equals constraint.
