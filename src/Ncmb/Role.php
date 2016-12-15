@@ -66,6 +66,11 @@ class Role extends Object
         return $this->set('roleName', $name);
     }
 
+    /**
+     * Find roles with gevin query
+     * @param \Ncmb\Query|null $query Query object
+     * @return array array of Role objects
+     */
     public static function find($query = null)
     {
         $path = self::$apiPath;
@@ -77,7 +82,6 @@ class Role extends Object
         } else {
             $options = [];
         }
-        //        var_dump($path, $options);exit;
         $result = ApiClient::get($path, $options);
 
         $output = [];
