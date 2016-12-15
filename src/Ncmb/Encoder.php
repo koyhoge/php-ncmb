@@ -32,7 +32,7 @@ class Encoder
         }
 
         if (is_array($value)) {
-            return self::encodeArray($value, $allowParseObjects);
+            return self::encodeArray($value);
         }
 
         if (!is_scalar($value) && $value !== null) {
