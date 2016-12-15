@@ -335,7 +335,7 @@ class Query
      */
     public function doesNotMatchQuery($key, $query)
     {
-        $queryParam = $query->_getOptions();
+        $queryParam = $query->getOptions();
         $queryParam['className'] = $query->className;
         $this->addCondition($key, '$notInQuery', $queryParam);
 
