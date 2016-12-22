@@ -65,31 +65,4 @@ class Role extends Object
         }
         return $this->set('roleName', $name);
     }
-
-    /**
-     * Find roles with gevin query
-     * @param \Ncmb\Query|null $query Query object
-     * @return array array of Role objects
-     */
-    public static function find($query = null)
-    {
-        $path = self::$apiPath;
-
-        if ($query) {
-            $options = [
-                'query' => $query->getQueryOptions(),
-            ];
-        } else {
-            $options = [];
-        }
-        $result = ApiClient::get($path, $options);
-
-        $output = [];
-        foreach ($result['results'] as $row) {
-            $role = new Role;
-            $role->mergeAfterFetch($row, true);
-            $output[] = $role;
-        }
-        return $output;
-    }
 }

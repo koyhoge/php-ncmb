@@ -354,6 +354,33 @@ class Object implements Encodable
     }
 
     /**
+     * Find objects with gevin query
+     * @param \Ncmb\Query|null $query Query object
+     * @return array array of result objects
+     */
+    public function find($query = null)
+    {
+        $path = $this->getApiPath();
+
+        if ($query) {
+            $options = [
+                'query' => $query->getQueryOptions(),
+            ];
+        } else {
+            $options = [];
+        }
+        $result = ApiClient::get($path, $options);
+
+        $output = [];
+        foreach ($result['results'] as $row) {
+            $obj = new static;
+            $obj->mergeAfterFetch($row, true);
+            $output[] = $obj;
+        }
+        return $output;
+    }
+
+    /**
      * Merges data received from the server.
      *
      * @param array $data Data retrieved from server
