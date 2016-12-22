@@ -8,6 +8,7 @@ namespace Ncmb;
 class User extends Object
 {
     public static $ncmbClassName = 'user';
+    public static $apiPath = 'users';
 
     /**
      * The currently logged-in user
@@ -57,7 +58,7 @@ class User extends Object
      */
     public function getApiPath()
     {
-        return 'users';
+        return self::$apiPath;
     }
 
     /**
