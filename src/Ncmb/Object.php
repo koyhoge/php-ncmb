@@ -3,6 +3,7 @@
 namespace Ncmb;
 
 use Ncmb\Operation\FieldOperation;
+use Ncmb\Relation;
 
 /**
  * Object class
@@ -499,6 +500,27 @@ class Object implements Encodable
     }
 
     /**
+     * Access or create a Relation value for a key.
+     *
+     * @param string $key       The key to access the relation for.
+     * @param string $className The target class name.
+     *
+     * @return \Ncmb\Relation The \Ncmb\Relation object if the relation already
+     *                       exists for the key or can be created for this key.
+     */
+    public function getRelation($key, $className = null)
+    {
+        $relation = new Relation($this, $key, $className);
+        if (!$className && isset($this->estimatedData[$key])) {
+            $object = $this->estimatedData[$key];
+            if ($object instanceof Relation) {
+                $relation->setTargetClass($object->getTargetClass());
+            }
+        }
+        return $relation;
+    }
+
+    /**
      * Gets a Pointer referencing this Object.
      *
      * @throws \Ncmb\Exception
@@ -507,7 +529,7 @@ class Object implements Encodable
     public function toPointer()
     {
         if (!$this->objectId) {
-            throw new Exception("Can't serialize an unsaved Parse.Object");
+            throw new Exception("Can't serialize an unsaved Ncmb Object");
         }
         return [
             '__type'    => 'Pointer',

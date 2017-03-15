@@ -27,6 +27,10 @@ class Encoder
             return $value;
         }
 
+        if ($value instanceof \Ncmb\Object) {
+            return $value->toPointer();
+        }
+
         if ($value instanceof Encodable) {
             return $value->encode();
         }

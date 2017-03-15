@@ -5,9 +5,9 @@ namespace Ncmb\Operation;
 use Ncmb\Encoder;
 
 /**
- * Class SetOperation - Operation to set a value for an object key.
+ * Class Operation\Set - Operation to set a value for an object key.
  */
-class Set extends FieldOperation
+class Set implements FieldOperation
 {
     /**
      * Value to set for this operation.
