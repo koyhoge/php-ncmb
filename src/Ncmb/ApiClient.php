@@ -279,11 +279,12 @@ class ApiClient
 
         $params_string = implode('&', $encoded_params);
 
-        $url_hash = parse_url($url);
+        $url_parts = parse_url($url);
+
         $keys = [
             $method,
-            $url_hash['host'],
-            $url_hash['path'],
+            $url_parts['host'],
+            $url_parts['path'],
             $params_string,
         ];
 
