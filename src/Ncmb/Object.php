@@ -428,7 +428,7 @@ class Object implements Encodable
      * @param array $result       Data retrieved from the server.
      * @param bool  $completeData Fetch all data or not.
      */
-    protected function mergeAfterFetch($data, $completeData = true)
+    public function mergeAfterFetch($data, $completeData = true)
     {
         $this->mergeFromServer($data, $completeData);
         $this->rebuildEstimatedData();
