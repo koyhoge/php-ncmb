@@ -341,6 +341,22 @@ class Object implements Encodable
     }
 
     /**
+     * Static method which returns a new NCMB Object for a given class
+     * Optionally creates a pointer object if the objectId is provided.
+     *
+     * @param string $className Class Name for data on NCMB.
+     * @param string $objectId  Unique identifier for existing object.
+     * @param bool   $isPointer If the object is a pointer.
+     *
+     * @return \Ncmb\Object
+     */
+    public static function create($className, $objectId = null,
+                                  $isPointer = false)
+    {
+        return new self($className, $objectId, $isPointer);
+    }
+
+    /**
      * Fetch the object
      * @return \Ncmb\Object Returns self
      */
