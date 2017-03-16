@@ -42,4 +42,4 @@ php-ncmb: Unofficial PHP SDK for NIFTY Cloud mobile backend (NCMB).
 
 ## LICENSE
 
-MIT LICENSE. see also [LICENSE](./LICENSE).
+MIT LICENSE. see also LICENSE file.
