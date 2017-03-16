@@ -66,6 +66,47 @@ class Query
         $this->className = $className;
     }
 
+
+    /**
+     * Execute a query to get only the first result.
+     *
+     * @return array|\Ncmb\Object Returns the first object or an empty array
+     */
+    public function first()
+    {
+        $this->limit = 1;
+        $result = $this->find();
+        if (count($result)) {
+            return $result[0];
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * Execute a find query and return the results.
+     *
+     * @return Ncmb\Object[]
+     */
+    public function find()
+    {
+        $options = $this->getQueryOptions();
+
+        $result = ApiClient::request(
+            'GET',
+            'classes/' . $this->className,
+            $options
+        );
+        $output = [];
+        foreach ($result['results'] as $row) {
+            $obj = Object::create($this->className, $row['objectId']);
+            $obj->mergeAfterFetch($row);
+            $output[] = $obj;
+        }
+
+        return $output;
+    }
+
     /**
      * Set the skip parameter as a query constraint.
      *
