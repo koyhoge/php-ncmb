@@ -191,7 +191,7 @@ class Object implements Encodable
     {
         if (!$this->_isDataAvailable($key)) {
             throw new Exception(
-                'Ncmb\\bject has no data for this key. '.
+                'Ncmb\\Object has no data for this key. '.
                 'Call fetch() to get the data.'
             );
         }
