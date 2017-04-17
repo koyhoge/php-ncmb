@@ -106,8 +106,6 @@ class Object implements Encodable
         } else {
             $this->set($key, $value);
         }
-
-        $this->set($key, $value);
     }
 
     public function __get($key)
