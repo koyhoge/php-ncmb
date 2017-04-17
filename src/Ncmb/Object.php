@@ -496,7 +496,7 @@ class Object implements Encodable
                 return new \DateTime($data['iso']);
                 break;
             case 'Pointer':
-                // TBD
+                return Object::create($data['className'], $data['objectId']);
                 break;
             case 'Relation':
                 // TBD
