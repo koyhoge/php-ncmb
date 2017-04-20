@@ -452,6 +452,20 @@ class Query
     }
 
     /**
+     * Add constraint for relation.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return \Ncmb\Query
+     */
+    public function relatedTo($key, $value)
+    {
+        $this->addCondition('$relatedTo', $key, $value);
+        return $this;
+    }
+
+    /**
      * Returns an associative array of the query constraints.
      *
      * @return array

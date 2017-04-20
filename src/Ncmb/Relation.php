@@ -56,8 +56,31 @@ class Relation
         }
 
         $operation = new \Ncmb\Operation\Relation($objects, null);
-        $this->targetClassName = $operation->_getTargetClass();
+        $this->targetClassName = $operation->getTargetClass();
         $this->parent->performOperation($this->key, $operation);
     }
 
+    /**
+     * Set the parent object for the relation.
+     *
+     * @param $parent
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * Gets a query that can be used to query the objects in this relation.
+     *
+     * @return \Ncmb\Query That restricts the results to objects in this relations.
+    */
+    public function getQuery()
+    {
+        $query = new Query($this->targetClassName);
+        $query->relatedTo('object', $this->parent->toPointer());
+        $query->relatedTo('key', $this->key);
+
+        return $query;
+    }
 }

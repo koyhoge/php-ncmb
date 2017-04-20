@@ -57,6 +57,16 @@ class Relation implements FieldOperation
     }
 
     /**
+     * Get target class name
+     *
+     * @return string class name
+     */
+    public function getTargetClass()
+    {
+        return $this->targetClassName;
+    }
+
+    /**
      * Helper function to check that all passed ParseObjects have same
      * class name and assign targetClassName variable.
      *

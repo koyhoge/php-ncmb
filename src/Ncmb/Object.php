@@ -411,11 +411,28 @@ class Object implements Encodable
                 continue;
             }
             */
-            $decodedValue = static::decode($value);
-
+            if ($this->isRelation($value)) {
+                $class = $value['className'];
+                $decodedValue = new Relation($this, $key, $class);
+            } else {
+                $decodedValue = static::decode($value);
+            }
             $this->serverData[$key] = $decodedValue;
             $this->dataAvailability[$key] = true;
         }
+    }
+
+    protected function isRelation($data)
+    {
+        if (!isset($data) || !is_array($data)) {
+            return false;
+        }
+        $type = (isset($data['__type']))? $data['__type']: null;
+        $class = (isset($data['className']))? $data['className']: null;
+        if ($type === 'Relation' && $class !== null) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -497,7 +514,7 @@ class Object implements Encodable
                 return Object::create($data['className'], $data['objectId']);
                 break;
             case 'Relation':
-                // TBD
+                throw new Exception('Relation not allowed here');
                 break;
             case 'GeoPoint':
                 return new GeoPoint($data['latitude'], $data['longitude']);
@@ -598,6 +615,13 @@ class Object implements Encodable
                 }
             } else {
                 $out[$key] = $value;
+            }
+        }
+
+        // operations
+        foreach ($this->operationSet as $key => $set) {
+            if ($set instanceof FieldOperation) {
+                $out[$key] = $set->encode();
             }
         }
         return json_encode($out);
