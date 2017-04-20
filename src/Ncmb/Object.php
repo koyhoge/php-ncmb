@@ -134,10 +134,9 @@ class Object implements Encodable
                 'Must use setArray() or setAssociativeArray() for this value.'
             );
         }
-        $this->estimatedData[$key] = $value;
-        $this->dataAvailability[$key] = true;
-        // BUGS: Operation not supported yet
-        // $this->performOperation($key, new Operation\Set($value));
+        // $this->estimatedData[$key] = $value;
+        // $this->dataAvailability[$key] = true;
+        $this->performOperation($key, new Operation\Set($value));
     }
 
     /**
@@ -155,10 +154,9 @@ class Object implements Encodable
         if (!is_array($value)) {
             throw new Exception('Must use set() for non-array values.');
         }
-        $this->estimatedData[$key] = $value;
-        $this->dataAvailability[$key] = true;
-        // BUGS: Operation not supported yet
-        // $this->performOperation($key, new Operation\Set(array_values($value)));
+        //        $this->estimatedData[$key] = $value;
+        //        $this->dataAvailability[$key] = true;
+        $this->performOperation($key, new Operation\Set(array_values($value)));
     }
 
     /**
@@ -559,7 +557,7 @@ class Object implements Encodable
     protected function getSaveData()
     {
         $data = [];
-        foreach ($this->estimatedData as $key => $value) {
+        foreach ($this->operationSet as $key => $value) {
             $data[$key] = Encoder::encode($value);
         }
         return $data;
