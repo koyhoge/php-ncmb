@@ -90,7 +90,9 @@ class Query
      */
     public function find()
     {
-        $options = $this->getQueryOptions();
+        $options = [
+            'query' => $this->getQueryOptions()
+        ];
 
         $result = ApiClient::request(
             'GET',
