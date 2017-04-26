@@ -61,6 +61,26 @@ class Relation
     }
 
     /**
+     * Returns the target classname for the relation.
+     *
+     * @return string
+     */
+    public function getTargetClass()
+    {
+        return $this->targetClassName;
+    }
+
+    /**
+     * Set the target classname for the relation.
+     *
+     * @param $className
+     */
+    public function setTargetClass($className)
+    {
+        $this->targetClassName = $className;
+    }
+
+    /**
      * Set the parent object for the relation.
      *
      * @param $parent
