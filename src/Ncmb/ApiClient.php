@@ -75,6 +75,16 @@ class ApiClient
     }
 
     /**
+     * Send with HTTP DELETE method
+     * @param string $path path of url
+     * @param array $options options
+     */
+    public static function delete($path, array $options = [])
+    {
+        return self::request('DELETE', $path, $options);
+    }
+
+    /**
      * Convinience shortcut to send request to the server
      *
      * @param string $method HTTP Method
