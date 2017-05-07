@@ -27,6 +27,8 @@ class Push
         'acl',
     ];
 
+    static private $pathPrefix = 'push';
+
     /**
      * Send push notification
      * @param array $options
@@ -36,13 +38,38 @@ class Push
     {
         $data = static::encodeOptions($options);
 
-        $apiPath = 'push';
+        $apiPath = static::$pathPrefix;
         $apiOptions = [
             'json' => $data,
         ];
         $response = ApiClient::post($apiPath, $apiOptions);
 
         return $response['objectId'];
+    }
+
+    /**
+     * Update registered push notification
+     * @param string $id push id
+     * @param array $options
+     */
+    public static function update($id, $options)
+    {
+        $data = static::encodeOptions($options);
+        $apiPath = static::$pathPrefix . '/' . $id;
+        $apiOptions = [
+            'json' => $data,
+        ];
+        $apiClient::put($apiPath, $apiOptions);
+    }
+
+    /**
+     * Delete registered push notification
+     * @param string $id push id
+     */
+    public static function delete($id)
+    {
+        $apiPath = static::$pathPrefix . '/' . $id;
+        $apiClient::delete($apiPath);
     }
 
     protected static function encodeOptions($options)
