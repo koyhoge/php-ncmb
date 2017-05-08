@@ -8,6 +8,13 @@ namespace Ncmb;
 class Query
 {
     /**
+     * API path to search
+     *
+     * @var string
+     */
+    private $apiPath;
+
+    /**
      * Class name for data stored on NCMB.
      *
      * @var string
@@ -61,11 +68,35 @@ class Query
      *
      * @param mixed $className Class Name of data on NCMB.
      */
-    public function __construct($className)
+    public function __construct($className = null)
     {
+        $this->apiPath = null;
         $this->className = $className;
     }
 
+    /**
+     * Set API Path
+     * @param string $apiPath
+     */
+    public function setApiPath($apiPath)
+    {
+        $this->apiPath = $apiPath;
+    }
+
+    /**
+     * Get API Path
+     * @return string API path string
+     */
+    public function getApiPath()
+    {
+        if ($this->apiPath !== null) {
+            return $this->apiPath;
+        }
+        if ($this->className !== null) {
+            return 'classes/' . $this->className;
+        }
+        throw new Exception('Both apiPath and classNmae are not set');
+    }
 
     /**
      * Execute a query to get only the first result.
@@ -96,7 +127,7 @@ class Query
 
         $result = ApiClient::request(
             'GET',
-            'classes/' . $this->className,
+            $this->getApiPath(),
             $options
         );
         $output = [];
