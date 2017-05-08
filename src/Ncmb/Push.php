@@ -99,4 +99,15 @@ class Push
         }
         return $data;
     }
+
+    /**
+     * Return Query object to search pushes
+     * @return \Ncmb\Query
+     */
+    public static function getQuery()
+    {
+        $query = new Query();
+        $query->setApiPath('push');
+        return $query;
+    }
 }
