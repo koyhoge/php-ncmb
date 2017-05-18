@@ -27,7 +27,7 @@ class Push
         'acl',
     ];
 
-    static private $pathPrefix = 'push';
+    const PATH_PREFIX = 'push';
 
     /**
      * Send push notification
@@ -38,7 +38,7 @@ class Push
     {
         $data = static::encodeOptions($options);
 
-        $apiPath = static::$pathPrefix;
+        $apiPath = self::PATH_PREFIX;
         $apiOptions = [
             'json' => $data,
         ];
@@ -55,11 +55,11 @@ class Push
     public static function update($id, $options)
     {
         $data = static::encodeOptions($options);
-        $apiPath = static::$pathPrefix . '/' . $id;
+        $apiPath = self::PATH_PREFIX . '/' . $id;
         $apiOptions = [
             'json' => $data,
         ];
-        $apiClient::put($apiPath, $apiOptions);
+        ApiClient::put($apiPath, $apiOptions);
     }
 
     /**
@@ -68,8 +68,8 @@ class Push
      */
     public static function delete($id)
     {
-        $apiPath = static::$pathPrefix . '/' . $id;
-        $apiClient::delete($apiPath);
+        $apiPath = self::PATH_PREFIX . '/' . $id;
+        ApiClient::delete($apiPath);
     }
 
     protected static function encodeOptions($options)
