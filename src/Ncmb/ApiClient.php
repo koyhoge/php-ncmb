@@ -49,9 +49,11 @@ class ApiClient
      * @param string $path API path
      * @param array $options options
      */
-    public static function get($path, $options = [])
+    public static function get($path, array $options = [],
+                               $returnResponse = false)
     {
-        return self::request('GET', $path, $options);
+        return self::request('GET', $path, $options,
+                             null, null, null, $returnResponse);
     }
 
     /**
@@ -59,9 +61,11 @@ class ApiClient
      * @param string $path API path
      * @param array $options options
      */
-    public static function post($path, array $options = [])
+    public static function post($path, array $options = [],
+                                $returnResponse = false)
     {
-        return self::request('POST', $path, $options);
+        return self::request('POST', $path, $options,
+                             null, null, null, $returnResponse);
     }
 
     /**
@@ -69,9 +73,11 @@ class ApiClient
      * @param string $path path of url
      * @param array $options options
      */
-    public static function put($path, array $options = [])
+    public static function put($path, array $options = [],
+                               $returnResponse = false)
     {
-        return self::request('PUT', $path, $options);
+        return self::request('PUT', $path, $options,
+                             null, null, null, $returnResponse);
     }
 
     /**
@@ -79,9 +85,11 @@ class ApiClient
      * @param string $path path of url
      * @param array $options options
      */
-    public static function delete($path, array $options = [])
+    public static function delete($path, array $options = [],
+                                  $returnResponse = false)
     {
-        return self::request('DELETE', $path, $options);
+        return self::request('DELETE', $path, $options,
+                             null, null, null, $returnResponse);
     }
 
     /**
@@ -93,6 +101,7 @@ class ApiClient
      * @param string $sessionToken Session token
      * @param string $apiType type of APIi
      * @param ApiClient $apiClient ApiClient object
+     * @param bool $returnResponse return response object
      * @return mixed Result from API call
      */
     public static function request(
@@ -100,8 +109,9 @@ class ApiClient
         $relativeUrl,
         $data = null,
         $sessionToken = null,
-        $apiType = NCMB::T_API_COMMON,
-        $apiClient = null
+        $apiType = null,
+        $apiClient = null,
+        $returnResponse = false
     ) {
         if ($apiClient === null) {
             if (static::$apiClient !== null) {
@@ -139,9 +149,13 @@ class ApiClient
             throw Exception('API returns invalid content-type');
         }
 
-        $body = $response->getBody();
-        $decoded = json_decode((string)$body, true);
-        return $decoded;
+        if ($returnResponse) {
+            return $response;
+        } else {
+            $body = $response->getBody();
+            $decoded = json_decode((string)$body, true);
+            return $decoded:
+        }
     }
 
     /**
