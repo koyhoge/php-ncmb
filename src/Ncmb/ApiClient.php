@@ -141,20 +141,20 @@ class ApiClient
             throw new Exception('API returns bad status code');
         }
 
-        // Check Content-Type of response
-        $headers = $response->getHeaders();
-        $validContent = 'application/json';
-        if (strncmp($headers['Content-Type'][0], $validContent,
-                    strlen($validContent)) !== 0) {
-            throw Exception('API returns invalid content-type');
-        }
-
         if ($returnResponse) {
             return $response;
         } else {
+            // Check Content-Type of response
+            $headers = $response->getHeaders();
+            $validContent = 'application/json';
+            if (strncmp($headers['Content-Type'][0], $validContent,
+                        strlen($validContent)) !== 0) {
+                throw new Exception('API returns invalid content-type');
+            }
+
             $body = $response->getBody();
             $decoded = json_decode((string)$body, true);
-            return $decoded:
+            return $decoded;
         }
     }
 
