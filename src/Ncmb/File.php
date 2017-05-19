@@ -208,6 +208,17 @@ class File
         $response = ApiClient::get($apiPath, [], $returnResponse);
 
         $body = $response->getBody();
-        return $body;
+        return (string)$body;
+    }
+
+    /**
+     * Return Query object to search pushes
+     * @return \Ncmb\Query
+     */
+    public static function getQuery()
+    {
+        $query = new Query();
+        $query->setApiPath('files');
+        return $query;
     }
 }
