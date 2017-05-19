@@ -13,9 +13,11 @@ class Script
      * Execute registered script in NCMB
      * @param string $scriptName
      * @param array $options Guzzle Request Options
+     * @param string $method HTTP method
      * @return string response body as string
      */
-    public static function execute($scriptName, $options = null)
+    public static function execute($scriptName,
+                                   $options = null, $method = 'GET')
     {
         if (empty($scriptName)) {
             throw new Exception('ScriptName is required');
@@ -24,7 +26,7 @@ class Script
         $apiPath = self::PATH_PREFIX . '/' . $scriptName;
 
         $returnResponse = true;
-        $response = ApiClient::request('GET',
+        $response = ApiClient::request($method,
                                        $apiPath,
                                        $options,
                                        null,
