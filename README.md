@@ -2,6 +2,20 @@
 
 php-ncmb: Unofficial PHP SDK for [NIFTY Cloud mobile backend (NCMB)](http://mb.cloud.nifty.com/).
 
+## Install
+
+Add line into 'require' section of your 'composer.json':
+
+```json
+     "koyhoge/ncmb-php": "*"
+```
+
+then hit command:
+
+```
+  $ composer install
+```
+
 
 ## Initialize
 
