@@ -46,8 +46,8 @@ class File
         if ($this->data) {
             return $this->data;
         }
-        if (!$this->url) {
-            throw new Exception('Cannot retrieve data for unsaved File.');
+        if (!$this->name) {
+            throw new Exception('Cannot retrieve data from nonamed file.');
         }
         $this->data = $this->download();
         return $this->data;
@@ -139,6 +139,18 @@ class File
         $contents = file_get_contents($path, 'rb');
 
         return static::createFromData($contents, $name, $acl);
+    }
+
+    /**
+     * Instantiate File objet from file name on NCMB.
+     * @param string $name filename on NCMB
+     * @return \Ncmb\File
+     */
+    public static function createFromServer($name)
+    {
+        $file = new self();
+        $file->name = $name;
+        return $file;
     }
 
     /**
