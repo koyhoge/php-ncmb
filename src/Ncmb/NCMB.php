@@ -25,6 +25,7 @@ class NCMB
      */
     private static $config = [
         'apiVersion' => '2013-09-01',
+        'scriptApiVersion' => '2015-09-01',
         'apiHost' => 'mb.api.cloud.nifty.com',
         'scriptApiHost' => 'script.mb.api.cloud.nifty.com',
         'port' => 443,
@@ -104,10 +105,20 @@ class NCMB
     {
         $protocol = self::config('protocol');
         $port = self::config('port');
-        $apiVersion = self::config('apiVersion');
 
-        $hostkey = ($type === self::T_API_SCRIPT)? 'scriptApiHost': 'apiHost';
-        $apiHost = self::config($hostkey);
+        switch ($type) {
+            case self::T_API_SCRIPT:
+                $hostKey = 'scriptApiHost';
+                $versionKey = 'scriptApiVersion';
+                break;
+            case self::T_API_COMMON:
+            default:
+                $hostKey = 'apiHost';
+                $versionKey = 'apiVersion';
+                break;
+        }
+        $apiHost = self::config($hostKey);
+        $apiVersion = self::config($versionKey);
 
         if (($protocol == 'http' && $port == 80) ||
             ($protocol == 'https' && $port == 443)) {
