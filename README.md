@@ -40,6 +40,28 @@ php-ncmb: Unofficial PHP SDK for [NIFTY Cloud mobile backend (NCMB)](http://mb.c
     $foundObj = $query->first();
 ```
 
+## File
+
+```php
+    use \Ncmb\File;
+
+    // put file
+    $file = File::createFromData('hogehoge', 'hoge.txt');
+    $file->save();
+
+    // get file
+    $file = File::createFromServer('hoge.txt');
+    $data = $file->getData();
+```
+
+## Script
+
+```php
+    use \Ncmb\Script;
+
+    $result = Script::execute('hello.js', ['query' => ['name' => 'NCMB']]);
+```
+
 ## LICENSE
 
 MIT LICENSE. see also LICENSE file.
