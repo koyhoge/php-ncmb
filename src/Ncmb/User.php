@@ -143,6 +143,19 @@ class User extends Object
     }
 
     /**
+     * Send mail to given address for registration
+     * @param string $mail
+     */
+    public static function sendRegistrationMail($mail)
+    {
+        $apiPath = 'requestMailAddressUserEntry';
+        $options = [
+            'json' => ['mailAddress' => $mail],
+        ];
+        ApiClient::post($apiPath, $options);
+    }
+
+    /**
      * Logs in and returns a valid User, or throws if invalid.
      *
      * @param string $username
