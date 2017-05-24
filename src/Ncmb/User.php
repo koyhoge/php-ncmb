@@ -156,6 +156,19 @@ class User extends Object
     }
 
     /**
+     * Unregister user
+     * @param string $id user id
+     */
+    public static function unregister($id)
+    {
+        if (empty($id)) {
+            throw new Exception('UserId is required to unregister');
+        }
+        $apiPath = self::$apiPath . '/' . $id;
+        ApiClient::delete($apiPath);
+    }
+
+    /**
      * Logs in and returns a valid User, or throws if invalid.
      *
      * @param string $username
