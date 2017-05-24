@@ -256,6 +256,20 @@ class User extends Object
     }
 
     /**
+     * Logout current user
+     */
+    public static function logout()
+    {
+        $user = static::getCurrentUser();
+        if ($user) {
+            $apiPath = 'logout';
+            ApiClient::get($apiPath);
+            static::$currentUser = null;
+        }
+        ApiClient::getStorage()->remove('user');
+    }
+
+    /**
      * After a save, perform User object specific logic.
      *
      * @param bool $makeCurrent Whether to set the current user.
