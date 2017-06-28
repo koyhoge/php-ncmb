@@ -132,12 +132,27 @@ class Query
         );
         $output = [];
         foreach ($result['results'] as $row) {
-            $obj = Object::create($this->className, $row['objectId']);
+            $obj = $this->createInstance($this->className, $row['objectId']);
             $obj->mergeAfterFetch($row);
             $output[] = $obj;
         }
 
         return $output;
+    }
+
+    protected function createInstance($className, $objectId = null)
+    {
+        switch ($className) {
+            case Push::DUMMY_CLASS_NAME:
+                $obj = new Push($objectId);
+                break;
+            case User::NCMB_CLASS_NAME:
+                $obj = new User($objectId);
+                break;
+            default:
+                $obj = Object::create($className, $objectId);
+        }
+        return $obj;
     }
 
     /**
