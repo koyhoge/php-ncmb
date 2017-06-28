@@ -4,7 +4,7 @@ namespace Ncmb;
 /**
  * Push  - Handles sending push notifications with NCMB.
  */
-class Push
+class Push extends Object
 {
     const VALID_OPTION_KEY = [
         'deliveryTime',
@@ -28,6 +28,13 @@ class Push
     ];
 
     const PATH_PREFIX = 'push';
+
+    const DUMMY_CLASS_NAME = '__push__';
+
+    public function __construct($objectId = null)
+    {
+        parent::__construct(null, $objectId);
+    }
 
     /**
      * Send push notification
@@ -101,13 +108,13 @@ class Push
     }
 
     /**
-     * Return Query object to search pushes
+     * Get Query object
      * @return \Ncmb\Query
      */
     public static function getQuery()
     {
-        $query = new Query();
-        $query->setApiPath('push');
+        $query = new Query(self::DUMMY_CLASS_NAME);
+        $query->setApiPath(self::PATH_PREFIX);
         return $query;
     }
 }
