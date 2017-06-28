@@ -7,8 +7,8 @@ namespace Ncmb;
  */
 class User extends Object
 {
-    public static $ncmbClassName = 'user';
-    public static $apiPath = 'users';
+    const NCMB_CLASS_NAME = 'user';
+    const API_PATH = 'users';
 
     /**
      * The currently logged-in user
@@ -49,7 +49,7 @@ class User extends Object
      */
     public function __construct($objectId = null)
     {
-        parent::__construct(self::$ncmbClassName, $objectId);
+        parent::__construct(self::NCMB_CLASS_NAME, $objectId);
     }
 
     /**
@@ -58,7 +58,7 @@ class User extends Object
      */
     public function getApiPath()
     {
-        return self::$apiPath;
+        return self::API_PATH;
     }
 
     /**
@@ -164,7 +164,7 @@ class User extends Object
         if (empty($id)) {
             throw new Exception('UserId is required to unregister');
         }
-        $apiPath = self::$apiPath . '/' . $id;
+        $apiPath = self::API_PATH . '/' . $id;
         ApiClient::delete($apiPath);
     }
 
@@ -310,5 +310,16 @@ class User extends Object
     {
         $storage = ApiClient::getStorage();
         $storage->set('user', static::getCurrentUser());
+    }
+
+    /**
+     * Get Query object
+     * @return \Ncmb\Query
+     */
+    public static function getQuery()
+    {
+        $query = new Query(self::NCMB_CLASS_NAME);
+        $query->setApiPath(self::API_PATH);
+        return $query;
     }
 }
