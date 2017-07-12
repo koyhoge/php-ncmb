@@ -326,12 +326,18 @@ class Object implements Encodable
     public function save()
     {
         $path = $this->getApiPath();
+        if ($this->getObjectId()) {
+            $path .= '/' . $this->getObjectId();
+            $method = 'PUT';
+        } else {
+            $method = 'POST';
+        }
         $options = [
             // FIXME: support operations
             'json' => $this->getSaveData(),
         ];
 
-        $data = ApiClient::post($path, $options);
+        $data = ApiClient::request($method, $path, $options);
         $this->mergeAfterFetch($data, false);
         return $this;
     }
