@@ -7,8 +7,8 @@ namespace Ncmb;
  */
 class Role extends Object
 {
-    public static $ncmbClassName = 'role';
-    public static $apiPath = 'roles';
+    const NCMB_CLASS_NAME = 'role';
+    const API_PATH = 'roles';
 
     /**
      * Create a Role object with a given name and ACL.
@@ -20,7 +20,7 @@ class Role extends Object
      */
     public static function createRole($name, $acl = null)
     {
-        $role = new self(self::$ncmbClassName);
+        $role = new self(self::NCMB_CLASS_NAME);
         $role->setName($name);
         if ($acl) {
             $role->setAcl($acl);
@@ -35,7 +35,7 @@ class Role extends Object
      */
     public function getApiPath()
     {
-        return self::$apiPath;
+        return self::API_PATH;
     }
 
     /**
