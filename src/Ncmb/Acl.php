@@ -24,8 +24,8 @@ class Acl implements Encodable
     public static function createWithUser($user)
     {
         $acl = new self();
-        $acl->setUserReadAccess($user, true);
-        $acl->setUserWriteAccess($user, true);
+        $acl->setReadAccess($user, true);
+        $acl->setWriteAccess($user, true);
         return $acl;
     }
     /**
