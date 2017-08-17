@@ -71,6 +71,7 @@ class Acl implements Encodable
      * @param string $accessType Access name.
      * @param string $userId     User id.
      * @param bool   $allowed    If user allowed to access or not.
+     * @return Acl
      */
     protected function setAccess($accessType, $userId, $allowed)
     {
@@ -85,7 +86,7 @@ class Acl implements Encodable
         }
         if (!isset($this->permissionsById[$userId])) {
             if (!$allowed) {
-                return;
+                return $this;
             }
             $this->permissionsById[$userId] = [];
         }
@@ -97,6 +98,7 @@ class Acl implements Encodable
                 unset($this->permissionsById[$userId]);
             }
         }
+        return $this;
     }
 
     /**
@@ -124,13 +126,14 @@ class Acl implements Encodable
      * @param string $userId
      * @param bool   $allowd
      * @throws Exception
+     * @return Acl
      */
     public function setReadAccess($userId, $allowed)
     {
         if (!$userId) {
             throw new Exception('cannot setReadAccess for null userId');
         }
-        $this->setAccess('read', $userId, $allowed);
+        return $this->setAccess('read', $userId, $allowed);
     }
 
     /**
@@ -153,23 +156,25 @@ class Acl implements Encodable
      * @param string $userId
      * @param bool   $allowd
      * @throws Exception
+     * @return Acl
      */
     public function setWriteAccess($userId, $allowed)
     {
         if (!$userId) {
             throw new Exception('cannot setWriteAccess for null userId');
         }
-        $this->setAccess('write', $userId, $allowed);
+        return $this->setAccess('write', $userId, $allowed);
     }
 
     /**
      * Set whether the public is allowed to read this object.
      *
      * @param bool $allowed
+     * @return Acl
      */
     public function setPublicReadAccess($allowed)
     {
-        $this->setReadAccess(self::PUBLIC_KEY, $allowed);
+        return $this->setReadAccess(self::PUBLIC_KEY, $allowed);
     }
 
     /**
@@ -186,10 +191,11 @@ class Acl implements Encodable
      * Set whether the public is allowed to write this object.
      *
      * @param bool $allowed
+     * @return Acl
      */
     public function setPublicWriteAccess($allowed)
     {
-        $this->setWriteAccess(self::PUBLIC_KEY, $allowed);
+        return $this->setWriteAccess(self::PUBLIC_KEY, $allowed);
     }
 
     /**
@@ -216,10 +222,11 @@ class Acl implements Encodable
      * Set whether the given role name is allowed to read this object.
      * @param string $roleName The name of the role.
      * @param bool   $allowed  Whether the given role can read this object.
+     * @return Acl
      */
     public function setRoleReadAccessWithName($roleName, $allowed)
     {
-        $this->setReadAccess(self::ROLE_KEY . $roleName, $allowed);
+        return $this->setReadAccess(self::ROLE_KEY . $roleName, $allowed);
     }
 
     /**
@@ -236,9 +243,10 @@ class Acl implements Encodable
      * Set whether the given role name is allowed to write this object.
      * @param string $roleName The name of the role.
      * @param bool   $allowed  Whether the given role can read this object.
+     * @return Acl
      */
     public function setRoleWriteAccessWithName($roleName, $allowed)
     {
-        $this->setWriteAccess(self::ROLE_KEY . $roleName, $allowed);
+        return $this->setWriteAccess(self::ROLE_KEY . $roleName, $allowed);
     }
 }
