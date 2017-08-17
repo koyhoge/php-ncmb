@@ -65,4 +65,33 @@ class Role extends Object
         }
         return $this->set('roleName', $name);
     }
+
+    /**
+     * Get relation of blong usser of this role
+     * @return \Ncmb\Relation
+     */
+    public function getUsers()
+    {
+        return $this->getRelation('belongUser');
+    }
+
+    /**
+     * Get Relation of blong role of this role
+     * @return \Ncmb\Relation
+     */
+    public function getRoles()
+    {
+        return $this->getRelation('belongRole');
+    }
+
+    /**
+     * Get Query object to search roles
+     * @return \Ncmb\Query
+     */
+    public static function getQuery()
+    {
+        $query = new Query(self::NCMB_CLASS_NAME);
+        $query->setApiPath(self::API_PATH);
+        return $query;
+    }
 }

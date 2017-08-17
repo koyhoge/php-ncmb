@@ -149,6 +149,9 @@ class Query
             case User::NCMB_CLASS_NAME:
                 $obj = new User($objectId);
                 break;
+            case Role::NCMB_CLASS_NAME:
+                $obj = new Role($className, $objectId);
+                break;
             default:
                 $obj = Object::create($className, $objectId);
         }
