@@ -64,6 +64,11 @@ class Acl implements Encodable
         return $this->permissionsById;
     }
 
+    public function encodeToJson()
+    {
+        return json_encode($this->encode());
+    }
+
     /**
      * Set access permission with access name, user id and if
      * the user has permission for accessing or not.
