@@ -121,7 +121,7 @@ class File
         $file->name = $name;
         $file->data = $contents;
         if (!empty($acl)) {
-            $file->acl = acl;
+            $file->acl = $acl;
         }
         return $file;
     }
