@@ -8,6 +8,7 @@ class File
 {
     const MIME_TYPE = 'multipart/form-data';
 
+    const NCMB_CLASS_NAME = 'file';
     const PATH_PREFIX = 'files';
 
     /**
@@ -217,8 +218,8 @@ class File
      */
     public static function getQuery()
     {
-        $query = new Query();
-        $query->setApiPath('files');
+        $query = new Query(self::NCMB_CLASS_NAME);
+        $query->setApiPath(self::PATH_PREFIX);
         return $query;
     }
 }
