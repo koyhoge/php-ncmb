@@ -31,6 +31,17 @@ class Push extends Object
 
     const DUMMY_CLASS_NAME = '__push__';
 
+    /**
+     * @var Push status
+     */
+    const STAT_NOT_SEND = 0;
+    const STAT_SENDING = 1;
+    const STAT_SEND_OK = 2;
+    const STAT_OVER_LIMIT = 3;
+    const STAT_ERROR = 4;
+    const STAT_FLAG_OFF = 5;
+    const STAT_PARTIAL_ERROR = 6;
+
     public function __construct($objectId = null)
     {
         parent::__construct(null, $objectId);
