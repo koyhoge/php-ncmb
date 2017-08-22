@@ -182,7 +182,7 @@ class File
         if ($this->acl) {
             $options['multipart'][] = [
                 'name' => 'acl',
-                'contents' => $this->acl->encode(),
+                'contents' => $this->acl->encodeToJson(),
             ];
         }
         $apiPath = self::PATH_PREFIX . '/' . $this->name;
