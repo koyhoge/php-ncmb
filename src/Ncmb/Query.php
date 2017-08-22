@@ -132,16 +132,17 @@ class Query
         );
         $output = [];
         foreach ($result['results'] as $row) {
-            $obj = $this->createInstance($this->className, $row['objectId']);
-            $obj->mergeAfterFetch($row);
+            $obj = $this->createInstance($this->className, $row);
             $output[] = $obj;
         }
 
         return $output;
     }
 
-    protected function createInstance($className, $objectId = null)
+    protected function createInstance($className, $row)
     {
+        $objectId = isset($row['objectId'])? $row['objectId']: null;
+        $mergeRequired = true;
         switch ($className) {
             case Push::DUMMY_CLASS_NAME:
                 $obj = new Push($objectId);
@@ -152,8 +153,16 @@ class Query
             case Role::NCMB_CLASS_NAME:
                 $obj = new Role($className, $objectId);
                 break;
+            case File::NCMB_CLASS_NAME:
+                $obj = File::createFromServer($row['fileName']);
+                $obj->setAcl(Acl::createFromData($row['acl']));
+                $mergeRequired = false;
+                break;
             default:
                 $obj = Object::create($className, $objectId);
+        }
+        if ($mergeRequired) {
+            $obj->mergeAfterFetch($row);
         }
         return $obj;
     }
