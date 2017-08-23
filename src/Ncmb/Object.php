@@ -304,6 +304,17 @@ class Object implements Encodable
     }
 
     /**
+     * Add unique values to an array property.
+     *
+     * @param string $key   Key for array value on object.
+     * @param mixed  $value Value list to add uniquely.
+     */
+    public function addUnique($key, $value)
+    {
+        $this->performOperation($key, new Operation\AddUnique($value));
+    }
+
+    /**
      * Handle merging of special fields for the object.
      *
      * @param array &$data Data received from server.
