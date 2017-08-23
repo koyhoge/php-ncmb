@@ -351,7 +351,6 @@ class Object implements Encodable
             $method = 'POST';
         }
         $options = [
-            // FIXME: support operations
             'json' => $this->getSaveData(),
         ];
 
