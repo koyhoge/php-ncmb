@@ -282,6 +282,17 @@ class Object implements Encodable
     }
 
     /**
+     * Increment a numeric key by a certain value.
+     *
+     * @param string $key   Key for numeric value on object to increment.
+     * @param int    $value Value to increment by.
+     */
+    public function increment($key, $value = 1)
+    {
+        $this->performOperation($key, new Operation\Increment($value));
+    }
+
+    /**
      * Handle merging of special fields for the object.
      *
      * @param array &$data Data received from server.
