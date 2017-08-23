@@ -134,8 +134,6 @@ class Object implements Encodable
                 'Must use setArray() or setAssociativeArray() for this value.'
             );
         }
-        // $this->estimatedData[$key] = $value;
-        // $this->dataAvailability[$key] = true;
         $this->performOperation($key, new Operation\Set($value));
     }
 
@@ -154,8 +152,6 @@ class Object implements Encodable
         if (!is_array($value)) {
             throw new Exception('Must use set() for non-array values.');
         }
-        //        $this->estimatedData[$key] = $value;
-        //        $this->dataAvailability[$key] = true;
         $this->performOperation($key, new Operation\Set(array_values($value)));
     }
 
