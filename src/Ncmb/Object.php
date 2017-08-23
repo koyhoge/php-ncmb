@@ -293,6 +293,17 @@ class Object implements Encodable
     }
 
     /**
+     * Add a value to an array property.
+     *
+     * @param string $key   Key for array value on object to add a value to.
+     * @param mixed  $value Value to add.
+     */
+    public function add($key, $value)
+    {
+        $this->performOperation($key, new Operation\Add($value));
+    }
+
+    /**
      * Handle merging of special fields for the object.
      *
      * @param array &$data Data received from server.
