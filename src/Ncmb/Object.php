@@ -315,6 +315,24 @@ class Object implements Encodable
     }
 
     /**
+     * Remove a value from an array for an object key.
+     *
+     * @param string $key   Key to remove the value from on the object.
+     * @param mixed  $value Value to remove from the array.
+     * @throws \Ncmb\Exception
+     */
+    public function remove($key, $value)
+    {
+        if (!$key) {
+            throw new Exception('key may not be null.');
+        }
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+        $this->performOperation($key, new Operation\Remove($value));
+    }
+
+    /**
      * Handle merging of special fields for the object.
      *
      * @param array &$data Data received from server.
