@@ -451,22 +451,32 @@ class Object implements Encodable
     /**
      * Merges data received from the server.
      *
-     * @param array $result       Data retrieved from the server.
+     * @param array $data       Data retrieved from the server.
      * @param bool  $completeData Fetch all data or not.
      */
     public function mergeAfterFetch($data, $completeData = true)
     {
+        // clear old operation sets
+        foreach ($data as $key => $value) {
+            if (isset($this->operationSet[$key])) {
+                unset($this->operationSet[$key]);
+            }
+        }
+        $this->serverData = [];
+        $this->dataAvailability = [];
         $this->mergeFromServer($data, $completeData);
-        $this->rebuildEstimatedData();
+        $this->rebuildEstimatedData(false);
     }
 
     /**
      * Start from serverData and process operations to generate the current
      * value set for an object.
      */
-    protected function rebuildEstimatedData()
+    protected function rebuildEstimatedData($force = true)
     {
-        $this->estimatedData = [];
+        if ($force) {
+            $this->estimatedData = [];
+        }
         foreach ($this->serverData as $key => $value) {
             $this->estimatedData[$key] = $value;
         }
